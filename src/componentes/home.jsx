@@ -9,7 +9,7 @@ const Home =()=>{
             <div>
                 <Header/>
             </div>
-            skdfjsdkfjiiiiiiiiii
+        
         </div>
     );
 }
