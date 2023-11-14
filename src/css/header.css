@@ -1,10 +1,84 @@
-.header{
-    background-color:#6dabfd;
+.header {
+    background-color: #6dabfd;
     display: flex;
-    height: 45px;
+    align-items: center;
+    padding: 0 20px;
+    height: 60px; /* Increased height for better visibility */
     justify-content: space-between;
+    box-shadow: 0 2px 4px rgba(0,0,0,.1); /* Soft shadow for depth */
+}
 
+.logo .logo-img {
+    height: 40px; /* Bigger logo for prominence */
 }
-.icon{
-    margin-right: 115px;
+
+.icons {
+    display: flex;
+    align-items: center;
 }
+
+.icon {
+    margin: 0 15px; /* Consistent margin for icons */
+    position: relative;
+    cursor: pointer;
+}
+
+.icon:hover {
+    opacity: 0.7; /* Interactive feedback on hover */
+}
+
+.badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 5px;
+    font-size: 0.75em;
+}
+
+/* Responsive design tweaks can be added here */
+.dropdown {
+    position: absolute;
+    right: 0;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+  
+  .dropdown ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .dropdown ul li {
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .dropdown ul li a {
+    color: black;
+    text-decoration: none;
+    display: block;
+  }
+  
+  .dropdown ul li a:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .dropdown ul li:last-child {
+    border-bottom: none;
+  }
+
+  
+  .user-profile-image {
+    width: 40px; /* ou o tamanho que você desejar */
+    height: 40px; /* deve ser igual à largura para ser um círculo */
+    border-radius: 50%; /* isso cria o efeito circular */
+    background-color: transparent; /* define o fundo como transparente */
+    object-fit: cover; /* isso garante que a imagem cubra a área sem ser distorcida */
+  }

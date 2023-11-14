@@ -1,0 +1,50 @@
+.anuncio-form-container {
+    max-width: 500px;
+    margin: 2rem auto;
+    padding: 2rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    background-color: white;
+  }
+  
+  .anuncio-form-container h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 1.5rem;
+  }
+  
+  .anuncio-form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .anuncio-form input[type="text"],
+  .anuncio-form input[type="number"],
+  .anuncio-form select {
+    padding: 10px;
+    margin-bottom: 1rem;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+  }
+  
+  .anuncio-form input[type="text"]:focus,
+  .anuncio-form input[type="number"]:focus,
+  .anuncio-form select:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+  }
+  
+  .anuncio-form button[type="submit"] {
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .anuncio-form button[type="submit"]:hover {
+    background-color: #0056b3;
+  }
