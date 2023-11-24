@@ -3,7 +3,8 @@ import Header from "../componentes/header";
 import '../css/home.css'
 import { Link } from 'react-router-dom';
 import Sidebar from "../componentes/sidebar";
-function AnuncioForm({ titulo, onChangeTitulo, endereco, onChangeEndereco, valor, onChangeValor, onSubmit, onChangeFotoCapa, onChangeFotosAdicionais  }) {
+function AnuncioForm({ titulo, onChangeTitulo, endereco, onChangeEndereco, valor, onChangeValor, onSubmit, onChangeFotoCapa, onChangeFotosAdicionais,descricao, onChangeDescricao,
+  contato, onChangeContato,  }) {
     return (
       <div className="anuncio-form-container">
         <h2>Criar Anúncio de Imóvel</h2>
@@ -36,6 +37,23 @@ function AnuncioForm({ titulo, onChangeTitulo, endereco, onChangeEndereco, valor
             placeholder="Valor"
             required
           />
+          <textarea
+        id="descricao"
+        name="descricao"
+        value={descricao}
+        onChange={onChangeDescricao}
+        placeholder="Descrição do imóvel"
+        required
+      />
+      <input
+        type="text"
+        id="contato"
+        name="contato"
+        value={contato}
+        onChange={onChangeContato}
+        placeholder="Informações de contato"
+        required
+      />
           <p className="select_image">Selecionar imagem</p>
       <input
   type="file"
@@ -68,7 +86,9 @@ const Home = () => {
   const [anuncios, setAnuncios] = useState([]);
   const [imagens, setImagens] = useState([]);
   const [fotoCapa, setFotoCapa] = useState(null);
-const [fotosAdicionais, setFotosAdicionais] = useState([]);
+  const [fotosAdicionais, setFotosAdicionais] = useState([]);
+  const [descricao, setDescricao] = useState('');
+  const [contato, setContato] = useState('');
 
   const handleImagensChange = useCallback((e) => {
     // Armazene as imagens no estado como um array de arquivos
@@ -103,10 +123,17 @@ const [fotosAdicionais, setFotosAdicionais] = useState([]);
   const handleValorChange = useCallback((e) => {
     setValor(e.target.value);
   }, []);
+  const handleDescricaoChange = useCallback((e) => {
+    setDescricao(e.target.value);
+  }, []);
+
+  const handleContatoChange = useCallback((e) => {
+    setContato(e.target.value);
+  }, []);
   const handleSubmit = (e) => {
     e.preventDefault();
     // Abra uma conexão com o IndexedDB
-    const request = window.indexedDB.open('ImoveisDatabase', 3);
+    const request = window.indexedDB.open('ImoveisDatabase', 4);
 
     request.onerror = (event) => {
       console.error("Database error: " + event.target.errorCode);
@@ -138,7 +165,9 @@ const [fotosAdicionais, setFotosAdicionais] = useState([]);
         valor,
         userEmail,
         fotoCapa, // A imagem de capa é um único arquivo
-        fotosAdicionais
+        fotosAdicionais,
+        descricao,
+        contato,
       };
       const addAnuncioRequest = objectStore.add(anuncioData);
 
@@ -160,7 +189,7 @@ const [fotosAdicionais, setFotosAdicionais] = useState([]);
   };
   const handleRecuperarAnuncios = () => {
     // Abra uma conexão com o IndexedDB
-    const request = window.indexedDB.open('ImoveisDatabase', 3);
+    const request = window.indexedDB.open('ImoveisDatabase', 4);
 
     request.onerror = (event) => {
       console.error("Database error: " + event.target.errorCode);
@@ -214,6 +243,10 @@ const [fotosAdicionais, setFotosAdicionais] = useState([]);
           onChangeImagens={handleImagensChange}
           onChangeFotoCapa={handleFotoCapaChange}
           onChangeFotosAdicionais={handleFotosAdicionaisChange}
+          descricao={descricao}
+          onChangeDescricao={handleDescricaoChange}
+          contato={contato}
+          onChangeContato={handleContatoChange}
         />
       )}
       </div>

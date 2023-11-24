@@ -1,34 +1,69 @@
-/* Adicione ou modifique seu arquivo CSS com estas regras */
+/* Estilos para o card de anúncio */
 .anuncio-card {
-    display: flex;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px; /* Espaçamento entre cartões */
-    width: 400px;
-  }
-  
-  .anuncio-card img {
-    width: 150px; /* ou a largura que você preferir */
-    height: 150px; /* ou a altura que você preferir */
-    object-fit: cover; /* Isso garante que a imagem cubra a área designada sem distorcer */
-  }
-  
-  .anuncio-card-body {
-    padding: 15px;
-    flex-grow: 1; /* Isso faz com que o corpo ocupe o espaço restante */
-   
-  }
-  
-  .anuncio-title, .anuncio-endereco, .anuncio-valor {
-    margin: 5px 0; /* Espaçamento vertical entre itens */
-  }
-
-.anuncio-endereco{
-    margin-left: -80px;
-    margin-top: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-family: 'Arial', sans-serif;
+  margin-bottom: 20px; /* Espaço entre os cards */
 }
-.anuncio-valor{
-    margin-left: -130px;
+
+.anuncio-card img {
+  width: 100%; /* Imagens ocupam toda a largura do card */
+  height: auto; /* Altura automática para manter a proporção */
+}
+
+.anuncio-card-body {
+  padding: 15px; /* Espaçamento interno */
+}
+
+.anuncio-title {
+  font-size: 1.2em; /* Tamanho da fonte do título */
+  margin-bottom: 10px; /* Espaço abaixo do título */
+  color: #333; /* Cor do texto */
+}
+
+.anuncio-endereco, .anuncio-valor, .anuncio-detalhes p {
+  font-size: 0.9em; /* Tamanho da fonte para detalhes */
+  margin-bottom: 5px; /* Espaço entre os detalhes */
+  color: #666; /* Cor do texto para detalhes */
+}
+
+.anuncio-detalhes {
+  background-color: #f9f9f9; /* Cor de fundo para a seção de detalhes */
+  border-top: 1px solid #eee; /* Linha de separação */
+  padding-top: 10px; /* Espaçamento no topo dos detalhes */
+}
+
+/* Estilos para botões */
+button {
+  background-color: #007bff; /* Cor de fundo do botão */
+  color: white; /* Cor do texto do botão */
+  padding: 10px 15px; /* Espaçamento interno do botão */
+  border: none; /* Sem borda */
+  border-radius: 4px; /* Bordas arredondadas */
+  cursor: pointer; /* Cursor em forma de ponteiro */
+  margin-right: 5px; /* Espaço à direita do botão */
+}
+
+button:hover {
+  background-color: #0056b3; /* Cor de fundo do botão ao passar o mouse */
+}
+
+/* Aplicando estilos ao botão 'Detalhes' */
+.detalhes-btn {
+  background-color: #28a745; /* Cor de fundo para o botão de detalhes */
+}
+
+.detalhes-btn:hover {
+  background-color: #218838; /* Cor de fundo ao passar o mouse */
+}
+
+/* Aplicando estilos ao botão 'Deletar' */
+.delete-btn {
+  background-color: #dc3545; /* Cor de fundo para o botão de deletar */
+}
+
+.delete-btn:hover {
+  background-color: #c82333; /* Cor de fundo ao passar o mouse */
 }

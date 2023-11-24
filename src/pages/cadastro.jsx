@@ -28,7 +28,7 @@ function Cadastro() {
 
     reader.onload = (readEvent) => {
       // Abra uma conexão com o IndexedDB
-      const request = window.indexedDB.open('UserDatabase', 3);
+      const request = window.indexedDB.open('UserDatabase', 4);
 
       request.onerror = (event) => {
         console.error("Database error: " + event.target.errorCode);
