@@ -1,16 +1,18 @@
 .anuncio-form-container {
-    max-width: 500px;
-    margin: 2rem auto;
+
+ 
     padding: 2rem;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     background-color: white;
+    width: 400px;
+    height: 450px;
   }
   
   .anuncio-form-container h2 {
     text-align: center;
     color: #333;
-    margin-bottom: 1.5rem;
+ 
   }
   
   .anuncio-form {
@@ -21,7 +23,7 @@
   .anuncio-form input[type="text"],
   .anuncio-form input[type="number"],
   .anuncio-form select {
-    padding: 10px;
+  
     margin-bottom: 1rem;
     border-radius: 4px;
     border: 1px solid #ccc;
@@ -48,3 +50,95 @@
   .anuncio-form button[type="submit"]:hover {
     background-color: #0056b3;
   }
+
+
+  .anuncio-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Espaçamento entre cartões */
+    justify-content: center;
+  }
+  
+  .anuncio-card {
+    width: 300px; /* ou uma porcentagem para responsividade */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .anuncio-card img {
+    width: 100%;
+    height: auto;
+  }
+  
+  .anuncio-card-body {
+    padding: 15px;
+  }
+  
+  .anuncio-title {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .anuncio-endereco {
+    font-size: 1em;
+    color: #666;
+    margin-bottom: 5px;
+  }
+  
+  .anuncio-valor {
+    font-size: 1em;
+    color: #333;
+    margin-bottom: 15px;
+  }
+  
+  .anuncio-actions {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 15px 15px;
+  }
+  
+  .home-container {
+    display: flex;
+  }
+  
+  .sidebar {
+    width: 250px; /* ou o tamanho que você preferir */
+    background-color: #f0f0f0; /* ou outra cor de sua escolha */
+    height: 100vh; /* Altura total da tela */
+    /* Adicione mais estilos como padding, bordas, etc, conforme necessário */
+  }
+  
+  .sidebar nav ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .sidebar nav ul li a {
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    color: #333; /* ou outra cor de sua escolha */
+    /* Adicione mais estilos conforme necessário */
+  }
+  
+  .sidebar nav ul li a:hover {
+    background-color: #ddd; /* ou outra cor de sua escolha */
+  }
+  
+  .home-content {
+    flex-grow: 1;
+    /* Adicione padding e outros estilos conforme necessário */
+  }
+.content_home_side{
+  display: flex;
+}
+.select_image{
+  margin-left: -250px;
+  
+}
+.select_images{
+  margin-left: -300px;
+}

@@ -1,0 +1,34 @@
+/* Adicione ou modifique seu arquivo CSS com estas regras */
+.anuncio-card {
+    display: flex;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px; /* Espaçamento entre cartões */
+    width: 400px;
+  }
+  
+  .anuncio-card img {
+    width: 150px; /* ou a largura que você preferir */
+    height: 150px; /* ou a altura que você preferir */
+    object-fit: cover; /* Isso garante que a imagem cubra a área designada sem distorcer */
+  }
+  
+  .anuncio-card-body {
+    padding: 15px;
+    flex-grow: 1; /* Isso faz com que o corpo ocupe o espaço restante */
+   
+  }
+  
+  .anuncio-title, .anuncio-endereco, .anuncio-valor {
+    margin: 5px 0; /* Espaçamento vertical entre itens */
+  }
+
+.anuncio-endereco{
+    margin-left: -80px;
+    margin-top: 15px;
+}
+.anuncio-valor{
+    margin-left: -130px;
+}

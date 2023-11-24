@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useCallback } from "react";
 import Header from "../componentes/header";
 import '../css/home.css'
-
-
-function AnuncioForm({ titulo, onChangeTitulo, endereco, onChangeEndereco, valor, onChangeValor, onSubmit }) {
+import { Link } from 'react-router-dom';
+import Sidebar from "../componentes/sidebar";
+function AnuncioForm({ titulo, onChangeTitulo, endereco, onChangeEndereco, valor, onChangeValor, onSubmit, onChangeFotoCapa, onChangeFotosAdicionais  }) {
     return (
       <div className="anuncio-form-container">
         <h2>Criar Anúncio de Imóvel</h2>
@@ -36,6 +36,23 @@ function AnuncioForm({ titulo, onChangeTitulo, endereco, onChangeEndereco, valor
             placeholder="Valor"
             required
           />
+          <p className="select_image">Selecionar imagem</p>
+      <input
+  type="file"
+  id="fotoCapa"
+  name="fotoCapa"
+  accept="image/*"
+  onChange={onChangeFotoCapa}
+/>
+<p className="select_images">Mais fotos</p>
+<input
+  type="file"
+  id="fotosAdicionais"
+  name="fotosAdicionais"
+  accept="image/*"
+  multiple
+  onChange={onChangeFotosAdicionais}
+/>
           <button type="submit">Criar Anúncio</button>
         </form>
       </div>
@@ -48,8 +65,22 @@ const Home = () => {
   const [titulo, setTitulo] = useState('');
   const [endereco, setEndereco] = useState('');
   const [valor, setValor] = useState('');
+  const [anuncios, setAnuncios] = useState([]);
+  const [imagens, setImagens] = useState([]);
+  const [fotoCapa, setFotoCapa] = useState(null);
+const [fotosAdicionais, setFotosAdicionais] = useState([]);
 
-
+  const handleImagensChange = useCallback((e) => {
+    // Armazene as imagens no estado como um array de arquivos
+    setImagens([...e.target.files]);
+  }, []);
+  const handleFotoCapaChange = useCallback((e) => {
+    setFotoCapa(e.target.files[0]); // Só uma foto de capa
+  }, []);
+  
+  const handleFotosAdicionaisChange = useCallback((e) => {
+    setFotosAdicionais([...e.target.files]); // Várias fotos adicionais
+  }, []);
 
   useEffect(() => {
     // Simulando a recuperação do tipo de usuário do local storage ou de um contexto/global state
@@ -75,7 +106,7 @@ const Home = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Abra uma conexão com o IndexedDB
-    const request = window.indexedDB.open('ImoveisDatabase', 1);
+    const request = window.indexedDB.open('ImoveisDatabase', 3);
 
     request.onerror = (event) => {
       console.error("Database error: " + event.target.errorCode);
@@ -83,11 +114,19 @@ const Home = () => {
 
     request.onupgradeneeded = (event) => {
       const db = event.target.result;
+      let objectStore;
       if (!db.objectStoreNames.contains('anuncios')) {
-        db.createObjectStore('anuncios', { keyPath: 'id', autoIncrement: true });
+        objectStore = db.createObjectStore('anuncios', { keyPath: 'id', autoIncrement: true });
+      } else {
+        // Se o object store já existe, obter referência a ele.
+        objectStore = request.transaction.objectStore('anuncios');
+      }
+      
+      // Criar o índice userEmail se ele não existir
+      if (!objectStore.indexNames.contains('userEmail')) {
+        objectStore.createIndex('userEmail', 'userEmail', { unique: false });
       }
     };
-
     request.onsuccess = (event) => {
       const db = event.target.result;
       const transaction = db.transaction(['anuncios'], 'readwrite');
@@ -97,13 +136,21 @@ const Home = () => {
         titulo,
         endereco,
         valor,
-        userEmail 
+        userEmail,
+        fotoCapa, // A imagem de capa é um único arquivo
+        fotosAdicionais
       };
       const addAnuncioRequest = objectStore.add(anuncioData);
 
       addAnuncioRequest.onsuccess = () => {
         console.log('Anúncio adicionado com sucesso!');
         // Limpar campos ou realizar outras ações necessárias após o cadastro
+      
+        setTitulo('');
+        setEndereco('');
+        setValor('');
+        setFotoCapa(null);
+        setFotosAdicionais([]);
       };
 
       transaction.onerror = (transactionEvent) => {
@@ -111,13 +158,51 @@ const Home = () => {
       };
     };
   };
+  const handleRecuperarAnuncios = () => {
+    // Abra uma conexão com o IndexedDB
+    const request = window.indexedDB.open('ImoveisDatabase', 3);
+
+    request.onerror = (event) => {
+      console.error("Database error: " + event.target.errorCode);
+    };
+
+    request.onsuccess = (event) => {
+      const db = event.target.result;
+      const transaction = db.transaction(['anuncios'], 'readonly');
+      const objectStore = transaction.objectStore('anuncios');
+      const userEmail = localStorage.getItem('userEmail');
+
+      const myIndex = objectStore.index('userEmail'); // Supondo que você tem um índice 'userEmail' nos seus anúncios
+      const getAllRequest = myIndex.getAll(userEmail); // Recupera todos os anúncios com o e-mail do usuário
+
+      getAllRequest.onsuccess = () => {
+        setAnuncios(getAllRequest.result); // Atualiza o estado com os anúncios recuperados
+
+        const anunciosRecuperados = getAllRequest.result.map(anuncio => {
+          // Crie URLs de objeto para as imagens se elas existirem
+          return {
+            ...anuncio,
+            fotoCapaUrl: anuncio.fotoCapa ? URL.createObjectURL(anuncio.fotoCapa) : null,
+            fotosAdicionaisUrls: anuncio.fotosAdicionais ? anuncio.fotosAdicionais.map(foto => URL.createObjectURL(foto)) : []
+          };
+        });
+        setAnuncios(anunciosRecuperados); // Atualiza o estado com os anúncios recuperados
+      
+      };
+      
+    };
+    
+  };
 
 
   return (
     <div>
       <Header />
-      
+      <div className="content_home_side">
+      <Sidebar/>
       {tipoUsuario === 'imobiliaria' && (
+
+        
         <AnuncioForm
           titulo={titulo}
           onChangeTitulo={handleTituloChange}
@@ -126,9 +211,39 @@ const Home = () => {
           valor={valor}
           onChangeValor={handleValorChange}
           onSubmit={handleSubmit}
+          onChangeImagens={handleImagensChange}
+          onChangeFotoCapa={handleFotoCapaChange}
+          onChangeFotosAdicionais={handleFotosAdicionaisChange}
         />
       )}
+      </div>
+<div className="anuncio-container">
+
+  {anuncios.map(anuncio => (
+    <div className="anuncio-card" key={anuncio.id}>
+      {/* Substitua 'path-to-image' pelo caminho para a imagem do anúncio */}
+      <img src="path-to-image" alt="Imagem do Imóvel" />
+      <div className="anuncio-card-body">
+        <h3 className="anuncio-title">{anuncio.titulo}</h3>
+        <p className="anuncio-endereco">Endereço:  {anuncio.endereco}</p>
+        <p className="anuncio-valor">Valor:  {anuncio.valor}</p>
+        <img src={anuncio.fotoCapaUrl || 'placeholder-image-url'} alt="Capa do Anúncio" />
+
+        
+        <div className="anuncio-actions">
+          <button>Mais detalhes</button>
+          <button>Editar</button>
+          <button>Deletar</button>
+        </div>
+      </div>
     </div>
+  ))}
+</div>
+
+
+<button onClick={handleRecuperarAnuncios}>Ver Meus Anúncios</button>
+    </div>
+    
   );
 };
 

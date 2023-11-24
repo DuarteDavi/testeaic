@@ -5,14 +5,16 @@ import Sobre from './componentes/sobre';
 import Login from './pages/Login';
 import Cadastro from './pages/cadastro'
 import ProtectedRoute from './Auth/withAuth'
+import MeusAnuncios from './componentes/meus_anucnios';
+
 function App() {
   return (
     <Router>
       <Routes>
-     
         <Route element={<ProtectedRoute />}>
           <Route path="/" element={<Home />} />
           <Route path="/sobre" element={<Sobre />} />
+          <Route path="/meus-anuncios" element={<MeusAnuncios />} /> {/* Nova rota para Meus Anúncios */}
         </Route>
    
         <Route path="/login" element={<Login />} />
