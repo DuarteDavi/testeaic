@@ -103,11 +103,10 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    // Simulando a recuperação do tipo de usuário do local storage ou de um contexto/global state
-    const userToken = localStorage.getItem('sessionToken');
-    // Simulação de decodificação do token para obter o tipo de usuário
-    // Na prática, você pode querer decodificar um JWT ou realizar uma consulta ao IndexedDB
-    const userType = userToken ? 'imobiliaria' : 'cliente'; // Simulação, substituir pela lógica adequada
+    // Aqui você deve implementar a lógica para buscar o tipo de usuário de forma segura, 
+    // como por exemplo decodificando um JWT que contém as informações do usuário
+    // Para simplificar, vamos continuar com a simulação.
+    const userType = localStorage.getItem('userType'); // Supondo que você salvou o tipo de usuário no login
     setTipoUsuario(userType);
   }, []);
 
@@ -230,25 +229,23 @@ const Home = () => {
       <div className="content_home_side">
       <Sidebar/>
       {tipoUsuario === 'imobiliaria' && (
-
-        
-        <AnuncioForm
-          titulo={titulo}
-          onChangeTitulo={handleTituloChange}
-          endereco={endereco}
-          onChangeEndereco={handleEnderecoChange}
-          valor={valor}
-          onChangeValor={handleValorChange}
-          onSubmit={handleSubmit}
-          onChangeImagens={handleImagensChange}
-          onChangeFotoCapa={handleFotoCapaChange}
-          onChangeFotosAdicionais={handleFotosAdicionaisChange}
-          descricao={descricao}
-          onChangeDescricao={handleDescricaoChange}
-          contato={contato}
-          onChangeContato={handleContatoChange}
-        />
-      )}
+  <AnuncioForm
+    titulo={titulo}
+    onChangeTitulo={handleTituloChange}
+    endereco={endereco}
+    onChangeEndereco={handleEnderecoChange}
+    valor={valor}
+    onChangeValor={handleValorChange}
+    onSubmit={handleSubmit}
+    onChangeImagens={handleImagensChange}
+    onChangeFotoCapa={handleFotoCapaChange}
+    onChangeFotosAdicionais={handleFotosAdicionaisChange}
+    descricao={descricao}
+    onChangeDescricao={handleDescricaoChange}
+    contato={contato}
+    onChangeContato={handleContatoChange}
+  />
+)}
       </div>
 <div className="anuncio-container">
 
