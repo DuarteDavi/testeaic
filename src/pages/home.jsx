@@ -3,12 +3,14 @@ import Header from "../componentes/header";
 import '../css/home.css'
 import { Link } from 'react-router-dom';
 import Sidebar from "../componentes/sidebar";
-function AnuncioForm({ titulo, onChangeTitulo, endereco, onChangeEndereco, valor, onChangeValor, onSubmit, onChangeFotoCapa, onChangeFotosAdicionais,descricao, onChangeDescricao,
+function AnuncioForm({ titulo, onChangeTitulo, endereco, onChangeEndereco, valor, onChangeValor, onSubmit, onChangeFotoCapa, onChangeFotosAdicionais,descricao, onChangeDescricao,vagas, onChangeVagas,quartos, onChangeQuartos,banheiros, onChangeBanheiros, taxaCondominio, onChangeTaxaCondominio,
   contato, onChangeContato,  }) {
     return (
       <div className="anuncio-form-container">
         <h2>Criar Anúncio de Imóvel</h2>
         <form className="anuncio-form" onSubmit={onSubmit}>
+        <div className="form-group">
+        <label htmlFor="titulo">Título:</label>
           <input
             type="text"
             id="titulo"
@@ -19,15 +21,21 @@ function AnuncioForm({ titulo, onChangeTitulo, endereco, onChangeEndereco, valor
             placeholder="Título"
             required
           />
+          </div>
+          <div className="form-group">
+          <label htmlFor="endereco">Cidade:</label>
           <input
             type="text"
             id="endereco"
             name="endereco"
             value={endereco}
             onChange={onChangeEndereco}
-            placeholder="Endereço"
+            placeholder="Cidade"
             required
           />
+          </div>
+           <div className="form-group">
+           <label htmlFor="valor">Valor:</label>
           <input
             type="text"
             id="valor"
@@ -36,15 +44,20 @@ function AnuncioForm({ titulo, onChangeTitulo, endereco, onChangeEndereco, valor
             onChange={onChangeValor}
             placeholder="Valor"
             required
-          />
-          <textarea
+          /></div>
+          <label htmlFor="contato" className="titulo_inputs">Descrição do anuncio:</label>
+           <div className="form-groupp">
+           
+          <textarea className="textarea"
         id="descricao"
         name="descricao"
         value={descricao}
         onChange={onChangeDescricao}
         placeholder="Descrição do imóvel"
         required
-      />
+      /></div>
+       <div className="form-group">
+       <label htmlFor="contato">Informações de Contato:</label>
       <input
         type="text"
         id="contato"
@@ -54,7 +67,60 @@ function AnuncioForm({ titulo, onChangeTitulo, endereco, onChangeEndereco, valor
         placeholder="Informações de contato"
         required
       />
+      </div>
+       <div className="form-group">
+       <label htmlFor="quartos">Número de Quartos:</label>
+      <input
+  type="number"
+  id="quartos"
+  name="quartos"
+  value={quartos}
+  onChange={onChangeQuartos}
+  placeholder="Número de Quartos"
+  required
+  min="0" // Define o valor mínimo como 0 (para evitar números negativos)
+/>
+</div>
+<div className="form-group">
+<label htmlFor="banheiros">Número de Banheiros:</label>
+<input
+  type="number"
+  id="banheiros"
+  name="banheiros"
+  value={banheiros}
+  onChange={onChangeBanheiros}
+  placeholder="Número de Banheiros"
+  required
+  min="0" // Define o valor mínimo como 0 (para evitar números negativos)
+/>
+</div>
+<div className="form-group">
+<label htmlFor="taxaCondominio">Valor da Taxa de Condomínio:</label>
+<input
+  type="text"
+  id="taxaCondominio"
+  name="taxaCondominio"
+  value={taxaCondominio}
+  onChange={onChangeTaxaCondominio}
+  placeholder="Valor da Taxa de Condomínio"
+  required
+/>
+</div>
+<div className="form-group">
+<label htmlFor="vagas">Vagas de Garagem:</label>
+      <input
+          type="text"
+          id="vagas"
+          name="vagas"
+          value={vagas}
+          onChange={onChangeVagas}
+          placeholder="Vagas de garagem"
+          required
+        />
           <p className="select_image">Selecionar imagem</p>
+          </div>
+          <div className="form-group">
+          <label>Selecionar imagem de capa:</label>   
       <input
   type="file"
   id="fotoCapa"
@@ -62,7 +128,11 @@ function AnuncioForm({ titulo, onChangeTitulo, endereco, onChangeEndereco, valor
   accept="image/*"
   onChange={onChangeFotoCapa}
 />
+</div>
 <p className="select_images">Mais fotos</p>
+
+<div className="form-group">
+<label>Selecionar imagens adicionais:</label>
 <input
   type="file"
   id="fotosAdicionais"
@@ -71,6 +141,7 @@ function AnuncioForm({ titulo, onChangeTitulo, endereco, onChangeEndereco, valor
   multiple
   onChange={onChangeFotosAdicionais}
 />
+</div>
           <button type="submit">Criar Anúncio</button>
         </form>
       </div>
@@ -89,7 +160,10 @@ const Home = () => {
   const [fotosAdicionais, setFotosAdicionais] = useState([]);
   const [descricao, setDescricao] = useState('');
   const [contato, setContato] = useState('');
-
+  const [vagas, setVagas] = useState('');
+  const [quartos, setQuartos] = useState('');
+const [banheiros, setBanheiros] = useState('');
+const [taxaCondominio, setTaxaCondominio] = useState('');
   const handleImagensChange = useCallback((e) => {
     // Armazene as imagens no estado como um array de arquivos
     setImagens([...e.target.files]);
@@ -103,11 +177,8 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    // Simulando a recuperação do tipo de usuário do local storage ou de um contexto/global state
-    const userToken = localStorage.getItem('sessionToken');
-    // Simulação de decodificação do token para obter o tipo de usuário
-    // Na prática, você pode querer decodificar um JWT ou realizar uma consulta ao IndexedDB
-    const userType = userToken ? 'imobiliaria' : 'cliente'; // Simulação, substituir pela lógica adequada
+    // Acesse o tipo de usuário diretamente do localStorage
+    const userType = localStorage.getItem('userType');
     setTipoUsuario(userType);
   }, []);
 
@@ -115,7 +186,25 @@ const Home = () => {
   const handleTituloChange = useCallback((e) => {
     setTitulo(e.target.value);
   }, []);
-
+  const handleQuartosChange = useCallback((e) => {
+    const value = e.target.value;
+    // Use uma expressão regular para permitir apenas números inteiros positivos
+    if (/^\d*$/.test(value)) {
+      setQuartos(value);
+    }
+  }, []);
+  
+  const handleBanheirosChange = useCallback((e) => {
+    const value = e.target.value;
+    // Use uma expressão regular para permitir apenas números inteiros positivos
+    if (/^\d*$/.test(value)) {
+      setBanheiros(value);
+    }
+  }, []);
+  
+  const handleTaxaCondominioChange = useCallback((e) => {
+    setTaxaCondominio(e.target.value);
+  }, []);
   const handleEnderecoChange = useCallback((e) => {
     setEndereco(e.target.value);
   }, []);
@@ -129,6 +218,13 @@ const Home = () => {
 
   const handleContatoChange = useCallback((e) => {
     setContato(e.target.value);
+  }, []);
+  const handleVagasChange = useCallback((e) => {
+    const valor = e.target.value;
+    // Verifique se o valor é numérico antes de atualizar o estado
+    if (!isNaN(valor) && valor >= 0) {
+      setVagas(valor);
+    }
   }, []);
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -168,6 +264,10 @@ const Home = () => {
         fotosAdicionais,
         descricao,
         contato,
+        vagas,
+        quartos,         
+        banheiros,
+        taxaCondominio,
       };
       const addAnuncioRequest = objectStore.add(anuncioData);
 
@@ -187,41 +287,7 @@ const Home = () => {
       };
     };
   };
-  const handleRecuperarAnuncios = () => {
-    // Abra uma conexão com o IndexedDB
-    const request = window.indexedDB.open('ImoveisDatabase', 4);
 
-    request.onerror = (event) => {
-      console.error("Database error: " + event.target.errorCode);
-    };
-
-    request.onsuccess = (event) => {
-      const db = event.target.result;
-      const transaction = db.transaction(['anuncios'], 'readonly');
-      const objectStore = transaction.objectStore('anuncios');
-      const userEmail = localStorage.getItem('userEmail');
-
-      const myIndex = objectStore.index('userEmail'); // Supondo que você tem um índice 'userEmail' nos seus anúncios
-      const getAllRequest = myIndex.getAll(userEmail); // Recupera todos os anúncios com o e-mail do usuário
-
-      getAllRequest.onsuccess = () => {
-        setAnuncios(getAllRequest.result); // Atualiza o estado com os anúncios recuperados
-
-        const anunciosRecuperados = getAllRequest.result.map(anuncio => {
-          // Crie URLs de objeto para as imagens se elas existirem
-          return {
-            ...anuncio,
-            fotoCapaUrl: anuncio.fotoCapa ? URL.createObjectURL(anuncio.fotoCapa) : null,
-            fotosAdicionaisUrls: anuncio.fotosAdicionais ? anuncio.fotosAdicionais.map(foto => URL.createObjectURL(foto)) : []
-          };
-        });
-        setAnuncios(anunciosRecuperados); // Atualiza o estado com os anúncios recuperados
-      
-      };
-      
-    };
-    
-  };
 
 
   return (
@@ -247,6 +313,14 @@ const Home = () => {
           onChangeDescricao={handleDescricaoChange}
           contato={contato}
           onChangeContato={handleContatoChange}
+          vagas={vagas}
+          onChangeVagas={handleVagasChange}
+          quartos={quartos}
+          onChangeQuartos={handleQuartosChange}
+          banheiros={banheiros}
+          onChangeBanheiros={handleBanheirosChange}
+          taxaCondominio={taxaCondominio}
+          onChangeTaxaCondominio={handleTaxaCondominioChange}
         />
       )}
       </div>
@@ -274,7 +348,7 @@ const Home = () => {
 </div>
 
 
-<button onClick={handleRecuperarAnuncios}>Ver Meus Anúncios</button>
+
     </div>
     
   );

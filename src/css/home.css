@@ -1,19 +1,18 @@
 .anuncio-form-container {
-
- 
-    padding: 2rem;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    background-color: white;
-    width: 400px;
-    height: 450px;
-  }
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  background-color: #ffffff;
+  width: 400px;
+  margin: 0 auto;
+}
   
   .anuncio-form-container h2 {
     text-align: center;
     color: #333;
- 
+    margin-bottom: 20px;
   }
+  
   
   .anuncio-form {
     display: flex;
@@ -51,7 +50,25 @@
     background-color: #0056b3;
   }
 
-
+  .form-group {
+    margin-bottom: 20px;
+  }
+  .form-groupp {
+    margin-bottom: 20px;
+    display: flex;
+  }
+.titulo_inputs{
+  margin-top: -25px;
+}
+textarea {
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  height: 35px; /* Defina a altura desejada em pixels */
+  width: 420px;
+  resize: none; /* Impede que o textarea seja redimensionado pelos usuários */
+}
   .anuncio-container {
     display: flex;
     flex-wrap: wrap;

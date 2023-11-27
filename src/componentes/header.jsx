@@ -33,7 +33,9 @@ function Header() {
   return (
     <header className="header">
       <div className="logo">
-      {userImage && <img src={userImage} alt="User Profile" className="user-profile-image"/>}
+      <Link to="/">
+          {userImage && <img src={userImage} alt="User Profile" className="user-profile-image" />}
+        </Link>
       </div>
       <div className="icons">
         <div className="icon envelope">
