@@ -4,7 +4,7 @@ import '../css/home.css'
 import { Link } from 'react-router-dom';
 import Sidebar from "../componentes/sidebar";
 function AnuncioForm({ titulo, onChangeTitulo, endereco, onChangeEndereco, valor, onChangeValor, onSubmit, onChangeFotoCapa, onChangeFotosAdicionais,descricao, onChangeDescricao,vagas, onChangeVagas,quartos, onChangeQuartos,banheiros, onChangeBanheiros, taxaCondominio, onChangeTaxaCondominio,
-  contato, onChangeContato,  }) {
+  contato, onChangeContato,telefone, onChangeTeefone  }) {
     return (
       <div className="anuncio-form-container">
         <h2>Criar Anúncio de Imóvel</h2>
@@ -68,6 +68,18 @@ function AnuncioForm({ titulo, onChangeTitulo, endereco, onChangeEndereco, valor
         required
       />
       </div>
+      <div className="form-group">
+       <label htmlFor="contato">Contato:</label>
+      <input
+        type="text"
+        id="telefone"
+        name="telefone"
+        value={telefone}
+        onChange={onChangeTeefone}
+        placeholder="Telefone"
+        required
+      />
+      </div>
        <div className="form-group">
        <label htmlFor="quartos">Número de Quartos:</label>
       <input
@@ -117,7 +129,7 @@ function AnuncioForm({ titulo, onChangeTitulo, endereco, onChangeEndereco, valor
           placeholder="Vagas de garagem"
           required
         />
-          <p className="select_image">Selecionar imagem</p>
+   
           </div>
           <div className="form-group">
           <label>Selecionar imagem de capa:</label>   
@@ -129,7 +141,7 @@ function AnuncioForm({ titulo, onChangeTitulo, endereco, onChangeEndereco, valor
   onChange={onChangeFotoCapa}
 />
 </div>
-<p className="select_images">Mais fotos</p>
+
 
 <div className="form-group">
 <label>Selecionar imagens adicionais:</label>
@@ -160,6 +172,7 @@ const Home = () => {
   const [fotosAdicionais, setFotosAdicionais] = useState([]);
   const [descricao, setDescricao] = useState('');
   const [contato, setContato] = useState('');
+  const [telefone, setTelefone] = useState('');
   const [vagas, setVagas] = useState('');
   const [quartos, setQuartos] = useState('');
 const [banheiros, setBanheiros] = useState('');
@@ -177,15 +190,12 @@ const [taxaCondominio, setTaxaCondominio] = useState('');
   }, []);
 
   useEffect(() => {
-<<<<<<< HEAD
-    // Acesse o tipo de usuário diretamente do localStorage
-    const userType = localStorage.getItem('userType');
-=======
+
     // Aqui você deve implementar a lógica para buscar o tipo de usuário de forma segura, 
     // como por exemplo decodificando um JWT que contém as informações do usuário
     // Para simplificar, vamos continuar com a simulação.
     const userType = localStorage.getItem('userType'); // Supondo que você salvou o tipo de usuário no login
->>>>>>> 6f3de903d3773fed29fa78d66c51c989ca336ff6
+
     setTipoUsuario(userType);
   }, []);
 
@@ -225,6 +235,9 @@ const [taxaCondominio, setTaxaCondominio] = useState('');
 
   const handleContatoChange = useCallback((e) => {
     setContato(e.target.value);
+  }, []);
+  const handleTelefoneChange = useCallback((e) => {
+    setTelefone(e.target.value);
   }, []);
   const handleVagasChange = useCallback((e) => {
     const valor = e.target.value;
@@ -275,6 +288,7 @@ const [taxaCondominio, setTaxaCondominio] = useState('');
         quartos,         
         banheiros,
         taxaCondominio,
+        telefone,
       };
       const addAnuncioRequest = objectStore.add(anuncioData);
 
@@ -303,7 +317,7 @@ const [taxaCondominio, setTaxaCondominio] = useState('');
       <div className="content_home_side">
       <Sidebar/>
       {tipoUsuario === 'imobiliaria' && (
-<<<<<<< HEAD
+
 
         
         <AnuncioForm
@@ -329,27 +343,12 @@ const [taxaCondominio, setTaxaCondominio] = useState('');
           onChangeBanheiros={handleBanheirosChange}
           taxaCondominio={taxaCondominio}
           onChangeTaxaCondominio={handleTaxaCondominioChange}
+          telefone={telefone}
+          onChangeTeefone={handleTelefoneChange}
         />
       )}
-=======
-  <AnuncioForm
-    titulo={titulo}
-    onChangeTitulo={handleTituloChange}
-    endereco={endereco}
-    onChangeEndereco={handleEnderecoChange}
-    valor={valor}
-    onChangeValor={handleValorChange}
-    onSubmit={handleSubmit}
-    onChangeImagens={handleImagensChange}
-    onChangeFotoCapa={handleFotoCapaChange}
-    onChangeFotosAdicionais={handleFotosAdicionaisChange}
-    descricao={descricao}
-    onChangeDescricao={handleDescricaoChange}
-    contato={contato}
-    onChangeContato={handleContatoChange}
-  />
-)}
->>>>>>> 6f3de903d3773fed29fa78d66c51c989ca336ff6
+
+
       </div>
 <div className="anuncio-container">
 
