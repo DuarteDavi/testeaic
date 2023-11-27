@@ -177,8 +177,15 @@ const [taxaCondominio, setTaxaCondominio] = useState('');
   }, []);
 
   useEffect(() => {
+<<<<<<< HEAD
     // Acesse o tipo de usuário diretamente do localStorage
     const userType = localStorage.getItem('userType');
+=======
+    // Aqui você deve implementar a lógica para buscar o tipo de usuário de forma segura, 
+    // como por exemplo decodificando um JWT que contém as informações do usuário
+    // Para simplificar, vamos continuar com a simulação.
+    const userType = localStorage.getItem('userType'); // Supondo que você salvou o tipo de usuário no login
+>>>>>>> 6f3de903d3773fed29fa78d66c51c989ca336ff6
     setTipoUsuario(userType);
   }, []);
 
@@ -296,6 +303,7 @@ const [taxaCondominio, setTaxaCondominio] = useState('');
       <div className="content_home_side">
       <Sidebar/>
       {tipoUsuario === 'imobiliaria' && (
+<<<<<<< HEAD
 
         
         <AnuncioForm
@@ -323,6 +331,25 @@ const [taxaCondominio, setTaxaCondominio] = useState('');
           onChangeTaxaCondominio={handleTaxaCondominioChange}
         />
       )}
+=======
+  <AnuncioForm
+    titulo={titulo}
+    onChangeTitulo={handleTituloChange}
+    endereco={endereco}
+    onChangeEndereco={handleEnderecoChange}
+    valor={valor}
+    onChangeValor={handleValorChange}
+    onSubmit={handleSubmit}
+    onChangeImagens={handleImagensChange}
+    onChangeFotoCapa={handleFotoCapaChange}
+    onChangeFotosAdicionais={handleFotosAdicionaisChange}
+    descricao={descricao}
+    onChangeDescricao={handleDescricaoChange}
+    contato={contato}
+    onChangeContato={handleContatoChange}
+  />
+)}
+>>>>>>> 6f3de903d3773fed29fa78d66c51c989ca336ff6
       </div>
 <div className="anuncio-container">
 

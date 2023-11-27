@@ -79,6 +79,9 @@ function MeusAnuncios() {
           {/* Utilize a URL do objeto criada para a imagem de capa do anúncio */}
           <img src={anuncio.fotoCapaUrl || 'placeholder-image-url'} alt="Imagem do Imóvel" />
           <div className="anuncio-card-body">
+            <p>Titulo: {anuncio.titulo}</p>
+            <p>Cidade: {anuncio.endereco}</p>
+            <p>Valor: {anuncio.valor}</p>
           <button onClick={() => mostrarDetalhes(anuncio)}>Detalhes</button>
           {/* Se o estado anuncioDetalhado contém o anúncio, mostre os detalhes */}
           {anuncioDetalhado && anuncioDetalhado.id === anuncio.id && (

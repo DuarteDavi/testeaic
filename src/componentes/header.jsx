@@ -28,6 +28,8 @@ function Header() {
   }, []);
   const handleLogout = () => {
     localStorage.removeItem('sessionToken');
+    localStorage.removeItem('userEmail');
+    localStorage.removeItem('userType');
     // Aqui você também pode adicionar lógica adicional para o logout, como atualizar o estado do usuário
   };
   return (
@@ -43,7 +45,7 @@ function Header() {
         </div>
         <div className="icon notification">
           <FaBell aria-label="Notifications" />
-          <span className="badge">3</span>
+         
         </div>
         <div className="icon settings" onClick={toggleDropdown}>
         <FaCog aria-label="Settings" />
