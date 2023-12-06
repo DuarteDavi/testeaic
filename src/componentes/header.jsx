@@ -30,7 +30,7 @@ function Header() {
     localStorage.removeItem('sessionToken');
     localStorage.removeItem('userEmail');
     localStorage.removeItem('userType');
-    // Aqui você também pode adicionar lógica adicional para o logout, como atualizar o estado do usuário
+
   };
   return (
     <header className="header">

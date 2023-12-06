@@ -50,7 +50,7 @@ button:hover {
   background-color: #0056b3; /* Cor de fundo do botão ao passar o mouse */
 }
 
-/* Aplicando estilos ao botão 'Detalhes' */
+
 .detalhes-btn {
   background-color: #28a745; /* Cor de fundo para o botão de detalhes */
 }
@@ -59,7 +59,7 @@ button:hover {
   background-color: #218838; /* Cor de fundo ao passar o mouse */
 }
 
-/* Aplicando estilos ao botão 'Deletar' */
+
 .delete-btn {
   background-color: #dc3545; /* Cor de fundo para o botão de deletar */
 }

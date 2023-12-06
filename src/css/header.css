@@ -3,13 +3,13 @@
     display: flex;
     align-items: center;
     padding: 0 20px;
-    height: 60px; /* Increased height for better visibility */
+    height: 60px; 
     justify-content: space-between;
-    box-shadow: 0 2px 4px rgba(0,0,0,.1); /* Soft shadow for depth */
+    box-shadow: 0 2px 4px rgba(0,0,0,.1); 
 }
 
 .logo .logo-img {
-    height: 40px; /* Bigger logo for prominence */
+    height: 40px; 
 }
 
 .icons {
@@ -18,13 +18,13 @@
 }
 
 .icon {
-    margin: 0 15px; /* Consistent margin for icons */
+    margin: 0 15px; 
     position: relative;
     cursor: pointer;
 }
 
 .icon:hover {
-    opacity: 0.7; /* Interactive feedback on hover */
+    opacity: 0.7; 
 }
 
 .badge {
@@ -38,7 +38,6 @@
     font-size: 0.75em;
 }
 
-/* Responsive design tweaks can be added here */
 .dropdown {
     position: absolute;
     right: 0;
@@ -76,9 +75,9 @@
 
   
   .user-profile-image {
-    width: 40px; /* ou o tamanho que você desejar */
-    height: 40px; /* deve ser igual à largura para ser um círculo */
-    border-radius: 50%; /* isso cria o efeito circular */
-    background-color: transparent; /* define o fundo como transparente */
-    object-fit: cover; /* isso garante que a imagem cubra a área sem ser distorcida */
+    width: 40px; 
+    height: 40px;
+    border-radius: 50%; 
+    background-color: transparent; 
+    object-fit: cover; 
   }

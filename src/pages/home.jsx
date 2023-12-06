@@ -90,7 +90,7 @@ function AnuncioForm({ titulo, onChangeTitulo, endereco, onChangeEndereco, valor
   onChange={onChangeQuartos}
   placeholder="Número de Quartos"
   required
-  min="0" // Define o valor mínimo como 0 (para evitar números negativos)
+  min="0" 
 />
 </div>
 <div className="form-group">
@@ -103,7 +103,7 @@ function AnuncioForm({ titulo, onChangeTitulo, endereco, onChangeEndereco, valor
   onChange={onChangeBanheiros}
   placeholder="Número de Banheiros"
   required
-  min="0" // Define o valor mínimo como 0 (para evitar números negativos)
+  min="0" 
 />
 </div>
 <div className="form-group">
@@ -175,26 +175,29 @@ const Home = () => {
   const [telefone, setTelefone] = useState('');
   const [vagas, setVagas] = useState('');
   const [quartos, setQuartos] = useState('');
-const [banheiros, setBanheiros] = useState('');
-const [taxaCondominio, setTaxaCondominio] = useState('');
+  const [banheiros, setBanheiros] = useState('');
+  const [taxaCondominio, setTaxaCondominio] = useState('');
+
+
+
+
+
   const handleImagensChange = useCallback((e) => {
-    // Armazene as imagens no estado como um array de arquivos
+  
     setImagens([...e.target.files]);
   }, []);
   const handleFotoCapaChange = useCallback((e) => {
-    setFotoCapa(e.target.files[0]); // Só uma foto de capa
+    setFotoCapa(e.target.files[0]); 
   }, []);
   
   const handleFotosAdicionaisChange = useCallback((e) => {
-    setFotosAdicionais([...e.target.files]); // Várias fotos adicionais
+    setFotosAdicionais([...e.target.files]); 
   }, []);
 
   useEffect(() => {
 
-    // Aqui você deve implementar a lógica para buscar o tipo de usuário de forma segura, 
-    // como por exemplo decodificando um JWT que contém as informações do usuário
-    // Para simplificar, vamos continuar com a simulação.
-    const userType = localStorage.getItem('userType'); // Supondo que você salvou o tipo de usuário no login
+    
+    const userType = localStorage.getItem('userType'); 
 
     setTipoUsuario(userType);
   }, []);
@@ -205,7 +208,7 @@ const [taxaCondominio, setTaxaCondominio] = useState('');
   }, []);
   const handleQuartosChange = useCallback((e) => {
     const value = e.target.value;
-    // Use uma expressão regular para permitir apenas números inteiros positivos
+    
     if (/^\d*$/.test(value)) {
       setQuartos(value);
     }
@@ -213,7 +216,6 @@ const [taxaCondominio, setTaxaCondominio] = useState('');
   
   const handleBanheirosChange = useCallback((e) => {
     const value = e.target.value;
-    // Use uma expressão regular para permitir apenas números inteiros positivos
     if (/^\d*$/.test(value)) {
       setBanheiros(value);
     }
@@ -241,14 +243,12 @@ const [taxaCondominio, setTaxaCondominio] = useState('');
   }, []);
   const handleVagasChange = useCallback((e) => {
     const valor = e.target.value;
-    // Verifique se o valor é numérico antes de atualizar o estado
     if (!isNaN(valor) && valor >= 0) {
       setVagas(valor);
     }
   }, []);
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Abra uma conexão com o IndexedDB
     const request = window.indexedDB.open('ImoveisDatabase', 4);
 
     request.onerror = (event) => {
@@ -261,11 +261,9 @@ const [taxaCondominio, setTaxaCondominio] = useState('');
       if (!db.objectStoreNames.contains('anuncios')) {
         objectStore = db.createObjectStore('anuncios', { keyPath: 'id', autoIncrement: true });
       } else {
-        // Se o object store já existe, obter referência a ele.
         objectStore = request.transaction.objectStore('anuncios');
       }
       
-      // Criar o índice userEmail se ele não existir
       if (!objectStore.indexNames.contains('userEmail')) {
         objectStore.createIndex('userEmail', 'userEmail', { unique: false });
       }
@@ -280,7 +278,7 @@ const [taxaCondominio, setTaxaCondominio] = useState('');
         endereco,
         valor,
         userEmail,
-        fotoCapa, // A imagem de capa é um único arquivo
+        fotoCapa, 
         fotosAdicionais,
         descricao,
         contato,
@@ -294,7 +292,6 @@ const [taxaCondominio, setTaxaCondominio] = useState('');
 
       addAnuncioRequest.onsuccess = () => {
         console.log('Anúncio adicionado com sucesso!');
-        // Limpar campos ou realizar outras ações necessárias após o cadastro
       
         setTitulo('');
         setEndereco('');
@@ -354,7 +351,6 @@ const [taxaCondominio, setTaxaCondominio] = useState('');
 
   {anuncios.map(anuncio => (
     <div className="anuncio-card" key={anuncio.id}>
-      {/* Substitua 'path-to-image' pelo caminho para a imagem do anúncio */}
       <img src="path-to-image" alt="Imagem do Imóvel" />
       <div className="anuncio-card-body">
         <h3 className="anuncio-title">{anuncio.titulo}</h3>

@@ -16,7 +16,6 @@ function MeusAnuncios() {
 
       deleteRequest.onsuccess = () => {
         console.log('Anúncio deletado com sucesso.');
-        // Atualize o estado para refletir a remoção do anúncio
         setAnuncios(anuncios.filter(anuncio => anuncio.id !== id));
       };
 
@@ -26,7 +25,6 @@ function MeusAnuncios() {
     };
   };
   const mostrarDetalhes = (anuncio) => {
-    // Se o anúncio já está sendo mostrado, ocultá-lo. Caso contrário, mostrar os detalhes.
     if (anuncioDetalhado && anuncioDetalhado.id === anuncio.id) {
       setAnuncioDetalhado(null);
     } else {
@@ -38,7 +36,6 @@ function MeusAnuncios() {
     const [anuncios, setAnuncios] = useState([]);
 
     useEffect(() => {
-      // Substitua 'userEmail' pelo método correto para obter o e-mail do usuário autenticado
       const userEmail = localStorage.getItem('userEmail');
   
       if (userEmail) {
@@ -68,7 +65,6 @@ function MeusAnuncios() {
         };
       }
     }, []);
-  // Aqui você pode usar um hook ou componente de classe para buscar e exibir os anúncios do usuário
   return (
     <div className="meus-anuncios">
         <Header/>
@@ -76,20 +72,16 @@ function MeusAnuncios() {
       {anuncios.map(anuncio => (
         <div className="anuncio-card" key={anuncio.id}>
             
-          {/* Utilize a URL do objeto criada para a imagem de capa do anúncio */}
           <img src={anuncio.fotoCapaUrl || 'placeholder-image-url'} alt="Imagem do Imóvel" />
           <div className="anuncio-card-body">
             <p>Titulo: {anuncio.titulo}</p>
             <p>Cidade: {anuncio.endereco}</p>
             <p>Valor: {anuncio.valor}</p>
           <button onClick={() => mostrarDetalhes(anuncio)}>Detalhes</button>
-          {/* Se o estado anuncioDetalhado contém o anúncio, mostre os detalhes */}
           {anuncioDetalhado && anuncioDetalhado.id === anuncio.id && (
             <div className="anuncio-detalhes">
-              {/* Renderize todas as informações do anúncio aqui */}
               <p>Descrição: {anuncio.descricao}</p>
               <p>Contato: {anuncio.contato}</p>
-              {/* Renderize as imagens adicionais se houver */}
               {anuncio.fotosAdicionaisUrls && anuncio.fotosAdicionaisUrls.map((url, index) => (
                 <img key={index} src={url} alt={`Imagem adicional ${index + 1}`} />
               ))}

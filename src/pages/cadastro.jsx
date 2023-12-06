@@ -23,11 +23,9 @@ function Cadastro() {
   const navigate = useNavigate();
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Crie um novo FileReader para ler o arquivo de imagem
     const reader = new FileReader();
 
     reader.onload = (readEvent) => {
-      // Abra uma conexão com o IndexedDB
       const request = window.indexedDB.open('UserDatabase', 4);
 
       request.onerror = (event) => {
@@ -54,7 +52,7 @@ function Cadastro() {
           celular,
           senha,
           tipoUsuario,
-          imagem: readEvent.target.result // Armazena a imagem como uma string base64
+          imagem: readEvent.target.result 
         };
         const addUserRequest = objectStore.add(userData);
 
@@ -63,7 +61,7 @@ function Cadastro() {
           localStorage.setItem('userEmail', email);
           localStorage.setItem('userType', tipoUsuario);
           localStorage.setItem('sessionToken', mockToken);
-          setIsLoggedIn(true); // Atualiza o estado para refletir que o usuário está logado
+          setIsLoggedIn(true); 
           navigate('/');
         };
 
@@ -73,11 +71,11 @@ function Cadastro() {
       };
     };
 
-    // Se uma imagem foi carregada, leia como base64, caso contrário, adicione o usuário sem a imagem
+    
     if (imagemPerfil) {
       reader.readAsDataURL(imagemPerfil);
     } else {
-      // Se não houver imagem, inicie o processo de adição sem ela
+ 
       reader.onloadend();
     }
   };
