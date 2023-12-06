@@ -11,7 +11,7 @@ function Header() {
   useEffect(() => {
     const userEmail = localStorage.getItem('userEmail');
     if (userEmail) {
-      const request = window.indexedDB.open('UserDatabase', 4);
+      const request = window.indexedDB.open('UserDatabase', 6);
       request.onsuccess = function(event) {
         const db = event.target.result;
         const transaction = db.transaction(['users'], 'readonly');

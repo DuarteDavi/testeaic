@@ -2,6 +2,10 @@ import React, { useState, useEffect, useCallback } from "react";
 import Header from "../componentes/header";
 import '../css/home.css'
 import { Link } from 'react-router-dom';
+import Modal from "../componentes/modal";
+
+
+
 import Sidebar from "../componentes/sidebar";
 function AnuncioForm({ titulo, onChangeTitulo, endereco, onChangeEndereco, valor, onChangeValor, onSubmit, onChangeFotoCapa, onChangeFotosAdicionais,descricao, onChangeDescricao,vagas, onChangeVagas,quartos, onChangeQuartos,banheiros, onChangeBanheiros, taxaCondominio, onChangeTaxaCondominio,
   contato, onChangeContato,telefone, onChangeTeefone  }) {
@@ -177,11 +181,58 @@ const Home = () => {
   const [quartos, setQuartos] = useState('');
   const [banheiros, setBanheiros] = useState('');
   const [taxaCondominio, setTaxaCondominio] = useState('');
+  const [valorMaximo, setValorMaximo] = useState('');
+  const [cidadePesquisa, setCidadePesquisa] = useState('');
+
+  const [anunciosFiltrados, setAnunciosFiltrados] = useState([]);
+  const [modalAberto, setModalAberto] = useState(false);
+  const [anuncioSelecionado, setAnuncioSelecionado] = useState(null);
+
+
+  useEffect(() => {
+    const carregarAnuncios = () => {
+      const request = window.indexedDB.open('ImoveisDatabase', 6);
+  
+      request.onerror = (event) => {
+        console.error("Erro ao abrir o banco de dados:", event.target.errorCode);
+      };
+  
+      request.onsuccess = (event) => {
+        const db = event.target.result;
+        const transaction = db.transaction(['anuncios'], 'readonly');
+        const objectStore = transaction.objectStore('anuncios');
+        const getAllRequest = objectStore.getAll();
+  
+        getAllRequest.onsuccess = () => {
+          const anunciosRecuperados = getAllRequest.result.map(anuncio => {
+            return {
+              ...anuncio,
+              fotoCapaUrl: anuncio.fotoCapa ? URL.createObjectURL(anuncio.fotoCapa) : null
+            };
+          });
+          setAnuncios(anunciosRecuperados);
+        };
+      };
+    };
+  
+    carregarAnuncios();
+  }, []);
 
 
 
 
+  const abrirModal = (anuncio) => {
+    setAnuncioSelecionado(anuncio);
+    setModalAberto(true);
+  };
 
+  const fecharModal = () => {
+    setModalAberto(false);
+  };
+
+
+
+  
   const handleImagensChange = useCallback((e) => {
   
     setImagens([...e.target.files]);
@@ -220,7 +271,38 @@ const Home = () => {
       setBanheiros(value);
     }
   }, []);
+
+  const realizarPesquisa = () => {
+    const valorMaximoNumero = parseFloat(valorMaximo);
   
+    const resultadosFiltrados = anuncios.filter(anuncio => {
+      const valorAnuncio = parseFloat(anuncio.valor);
+      const valorDentroDoLimite = isNaN(valorMaximoNumero) || valorAnuncio <= valorMaximoNumero;
+      const cidadeAnuncio = anuncio.endereco.toLowerCase();
+      const cidadePesquisaLowerCase = cidadePesquisa.toLowerCase();
+      const mesmaCidade = cidadePesquisaLowerCase.length === 0 || cidadeAnuncio.includes(cidadePesquisaLowerCase);
+  
+      return valorDentroDoLimite && mesmaCidade;
+    });
+  
+    setAnunciosFiltrados(resultadosFiltrados);
+  
+    // Exibir os resultados no console
+    console.log("Anúncios encontrados:", resultadosFiltrados);
+  };
+  
+
+
+
+  const handleValorMaximoChange = (e) => setValorMaximo(e.target.value);
+const handleCidadePesquisaChange = (e) => setCidadePesquisa(e.target.value);
+
+const handlePesquisaSubmit = (e) => {
+  e.preventDefault();
+  console.log("Pesquisa submetida!");
+  realizarPesquisa();
+};
+
   const handleTaxaCondominioChange = useCallback((e) => {
     setTaxaCondominio(e.target.value);
   }, []);
@@ -249,7 +331,7 @@ const Home = () => {
   }, []);
   const handleSubmit = (e) => {
     e.preventDefault();
-    const request = window.indexedDB.open('ImoveisDatabase', 4);
+    const request = window.indexedDB.open('ImoveisDatabase', 6);
 
     request.onerror = (event) => {
       console.error("Database error: " + event.target.errorCode);
@@ -317,7 +399,7 @@ const Home = () => {
 
 
         
-        <AnuncioForm
+        <AnuncioForm  
           titulo={titulo}
           onChangeTitulo={handleTituloChange}
           endereco={endereco}
@@ -348,26 +430,60 @@ const Home = () => {
 
       </div>
 <div className="anuncio-container">
+{tipoUsuario === 'cliente' && (
+<div className="pesquisa-container">
+  <form onSubmit={handlePesquisaSubmit} className="pesquisa-form">
+    <div className="form-group">
+      <label htmlFor="valorMaximo">Valor Máximo:</label>
+      <input
+        type="text"
+        id="valorMaximo"
+        value={valorMaximo}
+        onChange={handleValorMaximoChange}
+        placeholder="Valor Máximo"
+      />
+    </div>
+    <div className="form-group">
+      <label htmlFor="cidade">Cidade:</label>
+      <input
+        type="text"
+        id="cidade"
+        value={cidadePesquisa}
+        onChange={handleCidadePesquisaChange}
+        placeholder="Cidade"
+      />
+    </div>
+    <button type="button" className="submit-button" onClick={handlePesquisaSubmit}>
+  Pesquisar
+</button>
 
-  {anuncios.map(anuncio => (
+  </form>
+</div>
+)}
+</div>
+<div className="anuncio-container">
+  {anunciosFiltrados.map(anuncio => (
     <div className="anuncio-card" key={anuncio.id}>
-      <img src="path-to-image" alt="Imagem do Imóvel" />
+      <img src={anuncio.fotoCapaUrl || 'placeholder-image-url'} alt="Imagem do Imóvel" className="anuncio-imagem" />
       <div className="anuncio-card-body">
         <h3 className="anuncio-title">{anuncio.titulo}</h3>
-        <p className="anuncio-endereco">Endereço:  {anuncio.endereco}</p>
-        <p className="anuncio-valor">Valor:  {anuncio.valor}</p>
-        <img src={anuncio.fotoCapaUrl || 'placeholder-image-url'} alt="Capa do Anúncio" />
-
-        
+        <p className="anuncio-endereco">Endereço: {anuncio.endereco}</p>
+        <p className="anuncio-valor">Valor: {anuncio.valor}</p>
         <div className="anuncio-actions">
-          <button>Mais detalhes</button>
-          <button>Editar</button>
-          <button>Deletar</button>
+        <button onClick={() => abrirModal(anuncio)}>Mais detalhes</button>
+          <button className="btn editar">Editar</button>
+          <button className="btn deletar">Deletar</button>
+          {
+  modalAberto && (
+    <Modal anuncio={anuncioSelecionado} fecharModal={fecharModal} />
+  )
+}
         </div>
       </div>
     </div>
   ))}
 </div>
+
 
 
 

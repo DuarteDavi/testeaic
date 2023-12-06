@@ -6,7 +6,7 @@ import { Link, Navigate } from 'react-router-dom';
 
 const checkUserCredentials = async (email, password) => {
   return new Promise((resolve, reject) => {
-    const request = window.indexedDB.open('UserDatabase', 4);
+    const request = window.indexedDB.open('UserDatabase', 6);
 
     request.onerror = function(event) {
       reject("Database error: " + event.target.errorCode);

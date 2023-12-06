@@ -21,12 +21,13 @@ function Cadastro() {
   const handleImagemChange = (e) => setImagemPerfil(e.target.files[0]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     const reader = new FileReader();
 
     reader.onload = (readEvent) => {
-      const request = window.indexedDB.open('UserDatabase', 4);
+      const request = window.indexedDB.open('UserDatabase', 6);
 
       request.onerror = (event) => {
         console.error("Database error: " + event.target.errorCode);
