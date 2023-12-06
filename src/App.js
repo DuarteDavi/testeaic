@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Home from './pages/home'; // Importe seus componentes aqui
+import Home from './pages/home'; 
 import Sobre from './componentes/sobre';
 import Login from './pages/Login';
 import Cadastro from './pages/cadastro'
@@ -14,12 +14,11 @@ function App() {
         <Route element={<ProtectedRoute />}>
           <Route path="/" element={<Home />} />
           <Route path="/sobre" element={<Sobre />} />
-          <Route path="/meus-anuncios" element={<MeusAnuncios />} /> {/* Nova rota para Meus Anúncios */}
+          <Route path="/meus-anuncios" element={<MeusAnuncios />} />
         </Route>
    
         <Route path="/login" element={<Login />} />
         <Route path="/cadastro" element={<Cadastro />} />
-        {/* Adicione mais rotas conforme necessário */}
       </Routes>
     </Router>
   );
