@@ -5,7 +5,7 @@ import '../css/meus_anuncios.css'
 function MeusAnuncios() {
   const [anuncioDetalhado, setAnuncioDetalhado] = useState(null);
   const deletarAnuncio = (id) => {
-    const request = window.indexedDB.open('ImoveisDatabase', 6);
+    const request = window.indexedDB.open('ImoveisDatabase', 3);
 
     request.onsuccess = (event) => {
       const db = event.target.result;
@@ -39,7 +39,7 @@ function MeusAnuncios() {
       const userEmail = localStorage.getItem('userEmail');
   
       if (userEmail) {
-        const request = window.indexedDB.open('ImoveisDatabase', 6);
+        const request = window.indexedDB.open('ImoveisDatabase', 3);
         
         request.onerror = (event) => {
           console.error("Database error: " + event.target.errorCode);

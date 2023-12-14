@@ -183,6 +183,10 @@ const Home = () => {
   const [taxaCondominio, setTaxaCondominio] = useState('');
   const [valorMaximo, setValorMaximo] = useState('');
   const [cidadePesquisa, setCidadePesquisa] = useState('');
+const [numeroQuartos, setNumeroQuartos] = useState('');
+const [numeroBanheiros, setNumeroBanheiros] = useState('');
+const [vagasGaragem, setVagasGaragem] = useState('');
+const [temTaxaCondominio, setTemTaxaCondominio] = useState(false);
 
   const [anunciosFiltrados, setAnunciosFiltrados] = useState([]);
   const [modalAberto, setModalAberto] = useState(false);
@@ -191,7 +195,7 @@ const Home = () => {
 
   useEffect(() => {
     const carregarAnuncios = () => {
-      const request = window.indexedDB.open('ImoveisDatabase', 6);
+      const request = window.indexedDB.open('ImoveisDatabase', 3);
   
       request.onerror = (event) => {
         console.error("Erro ao abrir o banco de dados:", event.target.errorCode);
@@ -207,7 +211,9 @@ const Home = () => {
           const anunciosRecuperados = getAllRequest.result.map(anuncio => {
             return {
               ...anuncio,
-              fotoCapaUrl: anuncio.fotoCapa ? URL.createObjectURL(anuncio.fotoCapa) : null
+              fotoCapaUrl: anuncio.fotoCapa ? URL.createObjectURL(anuncio.fotoCapa) : null,
+              fotosAdicionaisUrls: anuncio.fotosAdicionais ? anuncio.fotosAdicionais.map(foto => URL.createObjectURL(foto)) : []
+
             };
           });
           setAnuncios(anunciosRecuperados);
@@ -282,17 +288,30 @@ const Home = () => {
       const cidadePesquisaLowerCase = cidadePesquisa.toLowerCase();
       const mesmaCidade = cidadePesquisaLowerCase.length === 0 || cidadeAnuncio.includes(cidadePesquisaLowerCase);
   
-      return valorDentroDoLimite && mesmaCidade;
+      let quartosValido = true, banheirosValido = true, vagasGaragemValido = true;
+  
+      if (numeroQuartos) {
+        quartosValido = anuncio.quartos && parseInt(anuncio.quartos, 10) === parseInt(numeroQuartos, 10);
+      }
+  
+      if (numeroBanheiros) {
+        banheirosValido = anuncio.banheiros && parseInt(anuncio.banheiros, 10) === parseInt(numeroBanheiros, 10);
+      }
+  
+      if (vagasGaragem) {
+        vagasGaragemValido = anuncio.vagas && parseInt(anuncio.vagas, 10) === parseInt(vagasGaragem, 10);
+      }
+  
+      const taxaCondominioValida = !temTaxaCondominio || (anuncio.taxaCondominio && parseFloat(anuncio.taxaCondominio) >= 0);
+  
+      return valorDentroDoLimite && mesmaCidade && quartosValido && banheirosValido && vagasGaragemValido && taxaCondominioValida;
     });
   
     setAnunciosFiltrados(resultadosFiltrados);
   
-    // Exibir os resultados no console
     console.log("Anúncios encontrados:", resultadosFiltrados);
   };
   
-
-
 
   const handleValorMaximoChange = (e) => setValorMaximo(e.target.value);
 const handleCidadePesquisaChange = (e) => setCidadePesquisa(e.target.value);
@@ -331,7 +350,7 @@ const handlePesquisaSubmit = (e) => {
   }, []);
   const handleSubmit = (e) => {
     e.preventDefault();
-    const request = window.indexedDB.open('ImoveisDatabase', 6);
+    const request = window.indexedDB.open('ImoveisDatabase', 3);
 
     request.onerror = (event) => {
       console.error("Database error: " + event.target.errorCode);
@@ -453,6 +472,46 @@ const handlePesquisaSubmit = (e) => {
         placeholder="Cidade"
       />
     </div>
+    <div className="form-group">
+  <label htmlFor="numeroQuartos">Número de Quartos:</label>
+  <input
+    type="number"
+    id="numeroQuartos"
+    value={numeroQuartos}
+    onChange={(e) => setNumeroQuartos(e.target.value)}
+    placeholder="Número de Quartos"
+  />
+</div>
+<div className="form-group">
+  <label htmlFor="numeroBanheiros">Número de Banheiros:</label>
+  <input
+    type="number"
+    id="numeroBanheiros"
+    value={numeroBanheiros}
+    onChange={(e) => setNumeroBanheiros(e.target.value)}
+    placeholder="Número de Banheiros"
+  />
+</div>
+<div className="form-group">
+  <label htmlFor="vagasGaragem">Vagas de Garagem:</label>
+  <input
+    type="number"
+    id="vagasGaragem"
+    value={vagasGaragem}
+    onChange={(e) => setVagasGaragem(e.target.value)}
+    placeholder="Vagas de Garagem"
+  />
+</div>
+<div className="form-group">
+  <label>
+    <input
+      type="checkbox"
+      checked={temTaxaCondominio}
+      onChange={(e) => setTemTaxaCondominio(e.target.checked)}
+    />
+    Tem Taxa de Condomínio
+  </label>
+</div>
     <button type="button" className="submit-button" onClick={handlePesquisaSubmit}>
   Pesquisar
 </button>
@@ -465,14 +524,14 @@ const handlePesquisaSubmit = (e) => {
   {anunciosFiltrados.map(anuncio => (
     <div className="anuncio-card" key={anuncio.id}>
       <img src={anuncio.fotoCapaUrl || 'placeholder-image-url'} alt="Imagem do Imóvel" className="anuncio-imagem" />
+      
       <div className="anuncio-card-body">
         <h3 className="anuncio-title">{anuncio.titulo}</h3>
         <p className="anuncio-endereco">Endereço: {anuncio.endereco}</p>
         <p className="anuncio-valor">Valor: {anuncio.valor}</p>
         <div className="anuncio-actions">
-        <button onClick={() => abrirModal(anuncio)}>Mais detalhes</button>
-          <button className="btn editar">Editar</button>
-          <button className="btn deletar">Deletar</button>
+        <button className="botao_detalhes" onClick={() => abrirModal(anuncio)}>Mais detalhes</button>
+  
           {
   modalAberto && (
     <Modal anuncio={anuncioSelecionado} fecharModal={fecharModal} />

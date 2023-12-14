@@ -27,7 +27,7 @@ function Cadastro() {
     const reader = new FileReader();
 
     reader.onload = (readEvent) => {
-      const request = window.indexedDB.open('UserDatabase', 6);
+      const request = window.indexedDB.open('UserDatabase', 2);
 
       request.onerror = (event) => {
         console.error("Database error: " + event.target.errorCode);
@@ -35,7 +35,6 @@ function Cadastro() {
       };
 
       request.onupgradeneeded = (event) => {
-        // Crie um novo object store para os dados do usuário, se necessário
         const db = event.target.result;
         if (!db.objectStoreNames.contains('users')) {
           db.createObjectStore('users', { keyPath: 'email' });
